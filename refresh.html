@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 1. 实时在页面中刷新的时间 比如：您好，今天是：2020年8月18日14:55:54星期二 -->
+
+
+
+
+    <h2 id="show"></h2>
+
+    <script>
+        //  function  DateTime(){
+        //     var date = new Date();
+        //     var year = date.getFullYear();
+        //     var month = date.getMonth()+1;
+        //     var day = date.getDate();
+        //     var hours = date.getHours();
+        //     var minutes = date.getMinutes();
+        //     var seconds = date.getSeconds();
+        //     var newis = (String(year + "年" + month + "月" + day + "日 " + hours + ":" + minutes + ":" + seconds));
+        //     show.innerHTML = newis;
+        // }
+            
+            function DateTime(){        
+                var date = new Date();
+                var year = date.getFullYear();
+                var month = date.getMonth()+1;
+                var day = date.getDate();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var seconds = date.getSeconds(); 
+                var a = [month,day,hours,minutes,seconds];
+                var weekday = date.getDay();
+                var weekdays = ["星期日", "星期一","星期二","星期三","星期四","星期五","星期六"]
+                for(var i = 0;i<a.length;i++){
+                    if(a[i] < 10){
+                        a[i] = "0" + a[i];
+                    }
+                }    
+                var newis = (("您好！今天是" + year + "年" + a[0] + "月" + a[1] + "日 " + a[2] + ":" + a[3] + ":" + a[4] + weekdays[weekday]));
+                show.innerHTML = newis;
+            }
+       
+        // show.innerHTML = (DateTime());
+        setInterval(function() {
+           DateTime()
+        }, 1000);
+        // setInterval(DateTime,1000); // 这样不加括号返回的是函数本身，加了括号表示调用函数，没有返回值就不可以了，要想实时刷新，就不能用return，因为return只能返回一个值
+
+        
+        // console.log(setInterval(DateTime(),1000))  //外部调用不用括号
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+</head>
+<body>
+     
+    <div>
+        <img src="" alt="">
+        <img src="" alt="">
+        时
+        <img src="" alt="">
+        <img src="" alt="">
+        分
+        <img src="" alt="">
+        <img src="" alt="">
+        秒
+    </div>
+    <script>
+        var imgs = document.getElementsByTagName("img");   
+       function hd(a){
+           if(a<10){
+               a = "0" + a;
+           }
+           return a;   //又没写返回值！！！
+       }
+       function NowTime(){
+           var now = new Date();
+           var hour = hd(now.getHours());
+           var minutes = hd(now.getMinutes());
+           var second = hd(now.getSeconds());
+           var _date =( "" + hour + minutes + second);
+          
+           for(var i = 0;i<imgs.length;i++){
+               imgs[i].src = "img/" + _date[i] + ".png";
+           }
+       }
+    //    setInterval(NowTime,1000);
+
+       setInterval(function(){
+          NowTime()
+       }, 1000);
+        
+   </script>
+   
+</body>
+</html>

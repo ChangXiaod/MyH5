@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        *{margin: 0;padding: 0;}
+        table{
+            width: 50%;
+            position: relative;
+            margin: 30px auto;
+            border-collapse: collapse;
+            border: 1px solid blue;
+        }
+        th{
+            background-color: green;
+            height:2.5rem;
+            margin: 0 auto;
+        }
+        tr{
+            height:2.5rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #trr{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<table border="1">
+    <tr>
+        <th>商品名称</th>
+        <th>数量</th>
+        <th>单价</th>
+        <th>总计</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td>麻婆豆腐</td>
+        <td>数量：<button>-</button><span class="goods-num">4</span><button >+</button></td>
+        <td>单价：<span class="goods-price">2</span></td>
+        <td>小计<span class="goods-single-price">14</span></td>
+        <td>操作<input type="button" value="删除" class="del"></button></td>
+    </tr>
+    <tr>
+        <td>土豆丝</td>
+        <td>数量：<button>-</button><span class="goods-num">6</span><button >+</button></td>
+        <td>单价：<span class="goods-price">15</span></td>
+        <td>小计<span class="goods-single-price">26</span></td>
+        <td>操作<input type="button" value="删除" class="del"></button></td>
+    </tr>
+    <tr>
+        <td colspan="5">一共有<span id="goods-total-num">10</span>件商品,共计花费<span>40</span>元</td>
+    </tr>
+</table>
+
+
+
+<table border="1" >
+    <tr>
+        <th>商品名称</th>
+        <th>单价</th>
+        <th>操作</th>
+    </tr>
+    <tr>
+        <td>火烧鱼</td>
+        <td>单价：<span class="danjia">15</span></td>
+        <td>操作<input type="button" value="添加" class="add"></button></td>
+    </tr>
+    <tr>
+        <td>小酥肉</td>
+        <td>单价：<span class="danjia">15</span></td>
+        <td>操作<input type="button" value="添加" class="add"></button></td>
+    </tr>
+
+</table>
+</body>
+</html>
+<script type="text/javascript">
+    class cart {//声明类
+        getGoodsNumAndUpdate() {//商品数方法，将所有的商品数通过遍历求和，获得总数
+            let oGoods = document.getElementsByClassName("goods-num");//获取商品数DOM---为数组
+            let oGoodsnum = 0;      //设置中间变量，存储商品数
+            for (let i = 0; i < oGoods.length; i++) {   //遍历商品数
+                oGoodsnum += Number(oGoods[i].innerHTML);//对商品数求和，赋值给中间变量
+            }
+            let goodsTotal = document.querySelector("#goods-total-num");//获取商品总计DOM
+            goodsTotal.innerHTML = oGoodsnum;           //将中间值赋给商品总计
+        }
+        goodsSinglePrice() {                            //商品价格方法
+            let oGoodsPrice = document.getElementsByClassName("goods-single-price");//获取小计DOM
+            let oGoodsnum = 0;                          //设中间变量存储小计的和
+            for (let i = 0; i < oGoodsPrice.length; i++) {  //遍历所有小计
+                oGoodsnum += Number(oGoodsPrice[i].innerHTML);//将所有的小计之和赋值给中间变量
+            }
+            let goodsTotal = document.querySelector("#goods-total-num");//获取小计总计DOM
+            goodsTotal.nextElementSibling.innerHTML = oGoodsnum;    //将中间变量赋值给小计总值
+        }
+        //小计
+        goodsPrice(num1, price) {               //小计算法（数量X单价）封装成函数
+            return num1 * price;
+        }
+        goodsAdd(obt) {                         //点击增加按钮改变商品数量，改变小计值，
+            let oGoodsum = obt.previousElementSibling;          //previousElementSibling上一个节点，增加按钮当一个节点为商品数
+            oGoodsum.innerHTML = Number(oGoodsum.innerHTML) + 1;//点击增加按钮商品数增加
+            //获取单价节点
+            let oGoodprace = obt.parentNode.nextElementSibling.firstElementChild;
+            //parentNode为父节点，nextElementSibling为下一个节点，firstElementChild为第一个子节点，此时为单价节点
+            //获取小计
+            let oGoodP = this.goodsPrice(Number(oGoodsum.innerHTML), Number(oGoodprace.innerHTML));
+            //小计的值=商品数的值X商品单价（调用小计函数）
+            let ogoodsilingprace = obt.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+            //获取小计节点
+            ogoodsilingprace.innerHTML = oGoodP;//赋值
+            this.getGoodsNumAndUpdate();//调用数量总数方法
+            this.goodsSinglePrice();    //调用价格总数方法
+        }
+        goodsjian(obt) {                //点击按钮商品数量减少方法
+            let oGoodsum = obt.nextElementSibling;  //获取商品数值
+            if (Number(oGoodsum.innerHTML) > 0) {   //判断商品数是否大于0，商品数不能小于0；
+                oGoodsum.innerHTML = oGoodsum.innerHTML - 1;    //点击减少按钮，每点击一次数量减少一个
+            }
+            //获取单价节点
+            let oGoodprace = obt.parentNode.nextElementSibling.firstElementChild;//获取单价节点
+            //获取小计
+            let oGoodP = this.goodsPrice(Number(oGoodsum.innerHTML), Number(oGoodprace.innerHTML));
+            //小计=数量 X 单价，调用小计函数，用oGoodP存储；
+            let ogoodsilingprace = obt.parentNode.nextElementSibling.nextElementSibling.firstElementChild;
+            //获取小计节点
+            ogoodsilingprace.innerHTML = oGoodP;
+            //将存储的值赋值给小计
+            this.getGoodsNumAndUpdate();
+            //调用商品数方法
+            this.goodsSinglePrice();
+            //调用商品价格方法
+        }
+        remov(obt1) {                   //操作部分，点击删除tr
+            let a = obt1.parentNode.parentNode;//获取tr节点
+            a.remove();             //删除tr节点
+            this.getGoodsNumAndUpdate();//调用商品数量节点
+            this.goodsSinglePrice();    //调用商品价格节点
+        }
+        eventBind() {                   //事件绑定部分
+            let obt = document.querySelectorAll("button");//获取加减法按钮DOM；
+            let omove = document.querySelectorAll(".del");  //获取删除按钮DOM；
+            let that = this;
+            //这里this是new出来的，代表类；下方函数（）内部点击执行本身代码this为调用函数的对象本身；调用goodsjian方法为类的行为因此也用到this；局部变量与全局变量同名，局部变量会屏蔽全局变量；因此用到中间变量；
+            for (let i = 0; i < obt.length; i++) {      //遍历加减按钮；
+                if (i % 2 == 0) {                       //i%2与i%2=1相同 ，意思为满足该条件的button按钮为下标为偶数的按钮；
+                    obt[i].onclick = function() {       //根据HTML布局下标为0取余2为0；为减按钮，因此调用减方法
+                        that.goodsjian(this);           //此时this代表obt[i]调用函数对象的本身，与new出来的Card类的this同名，会屏蔽；
+                    }
+                } else {                                //i%2不等于0；
+                    obt[i].onclick = function() {       //满足该条件的按钮为下标为1和3的按钮；
+                        that.goodsAdd(this);
+                    }
+                }
+            }
+            for (let i = 0; i < omove.length; i++) {    //遍历删除按钮
+                omove[i].onclick = function() {         //绑定单击事件
+                    that.remov(this);                   //此处this与加减按钮this同理
+                }
+            }
+        }
+
+        addcai(){           //动态添加方法
+            let oadd = document.querySelectorAll(".add");   //获取 添加的菜单操作增加按钮的DOM值
+            let omove = document.querySelectorAll(".del");  //获取  已有的菜单删除按钮的DOM值
+            let that = this;                                //调用函数内部this会屏蔽new出来的this；设置中间变量
+
+            for (let i = 0; i < oadd.length; i++) {         //遍历增加按钮，两个for循环嵌套，外部循环执行一次，内部循环执行一遍；
+                oadd[i].onclick = function() {              //给每个增加按钮绑定单击事件
+                    let oadd = document.querySelectorAll(".add");
+                    let omove = document.querySelectorAll(".del");//循环一次，重新获取一次原有菜单的商品，有则不添加tr，天加数量，无则添加tr；
+                    let qqqq = false;                       //创建一个变量，默认为false；
+                    let a = this.parentNode.parentNode.firstElementChild;//this代表oadd[i]，添加按钮的父元素的父元素为tr，它的第一个子元素为商品（i为0时，a为麻婆豆腐）
+
+                    for (let j = 0; j < omove.length; j++) {    //遍历删除按钮
+                        let b = omove[j].parentNode.parentNode.firstElementChild    //删除按钮的父元素的父元素为tr，第一个子元素为商品
+                        if (a.innerHTML == b.innerHTML) {                           //a执行一次，b会执行一遍，a的值与b执行一遍的值比较，（就是与原有菜单商品那列比较）有相同的时候，执行以下代码
+                            let c = omove[j].parentNode.parentNode.firstElementChild.nextElementSibling.lastElementChild;
+                            //parentNode.parentNode表示tr，
+                            //parentNode.parentNode.firstElementChild表示商品；
+                            //parentNode.parentNode.firstElementChild.nextElementSibling商品的下一个节点，就是数量栏；
+                            //omove[j].parentNode.parentNode.firstElementChild.nextElementSibling.lastElementChild;数量栏的最后一个子元素就是“+”按钮，此时c表示“+”按钮
+                            qqqq = true;
+                            that.goodsAdd(c);       //调用商品数量加方法；
+                        }
+
+                    }
+                    if (qqqq == false) {
+                        let oadd = document.querySelectorAll(".add");   //重新获取所有商品值
+                        let omove = document.querySelectorAll(".del");  //重新获取所有删除按钮
+                        let otrr = document.querySelector("#trr");      //获取
+                        let otable = document.querySelectorAll("table");//获取两个菜单
+                        let lasttr = otable[0].querySelectorAll("tr");  //获取第一个菜单的tr
+                        let last1 = lasttr[lasttr.length - 1]           //第一个菜单的最后一个tr
+                        let lastr = lasttr[lasttr.length - 2];          //第一个菜单的倒数第二个tr
+
+                        let addtr = document.createElement("tr");       //动态创建一个tr；
+                        addtr.innerHTML = lastr.innerHTML;              //创建的tr与倒数第二个相同，相当与复制倒数第二个tr的内容
+                        addtr.firstElementChild.innerHTML = this.parentNode.parentNode.firstElementChild.innerHTML;
+                        //tr第一个子节点为商品，内容改为添加菜单的第一个子节点（商品），此时this代表调用函数对象的本身，增加按钮点击调用点击函数，this为增加按钮；
+                        addtr.firstElementChild.nextElementSibling.firstElementChild.nextElementSibling.innerHTML = 1;
+                        //复制tr当中的商品数量为1；
+                        addtr.firstElementChild.nextElementSibling.nextElementSibling.nextElementSibling.firstElementChild.innerHTML=this.parentNode.previousElementSibling.firstElementChild.innerHTML;
+                        //复制tr当中的单价改为增加栏中的单价
+                        last1.before(addtr);
+                        //原有菜单的最后一个tr当中添加复制tr；
+                        that.getGoodsNumAndUpdate();//调用商品增加方法
+                        that.goodsSinglePrice();    //调用商品总价方法
+                        that.eventBind();           //调用事件绑定方法
+
+                    }
+
+                }
+            }
+
+        }
+
+    }
+    let ocart = new cart();//创建类
+    ocart.eventBind();  //调用事件绑定
+    ocart.addcai();     //调用动态添加
+</script>

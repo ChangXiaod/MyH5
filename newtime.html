@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            height: 260px;
+            width: 190px;
+            background: url(jd.png);
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        h1{
+            text-align: center;
+            font-size: 30px;
+            color: #fff;
+            margin-top: 30px;
+            font-weight: 800;
+        }
+        .upstan{
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 80px;
+        }
+        #miaosha{
+            font-size: 30px;
+            color: #fff;
+            text-align: center;
+        }
+        span{
+           padding: 0 1px;
+            height: 32px;
+            width: 32px;
+            background-color: #222;
+        }
+    </style>
+</head>
+<body>
+    <!-- 4.100%还原京东秒杀 -->
+    <div >
+        <h1>一起倒数</h1>
+        <p class="upstan">20：00点场&nbsp; 倒计时</p>
+        <p id="miaosha"></p>
+    </div>
+   <script>
+
+       function hurry(a){
+           if(a < 10){
+               a = "0" + a;
+           }
+           return a;
+       }
+       function CountDown(){
+          var now = new Date();  //获取当前时间
+          var target = new Date("2021-02-12 00:00:00");  //设定目标时间
+          var all = (target.getTime() - now.getTime()) / 1000;   //总共的时间除以1000得到秒数
+          var hours = hurry(parseInt(all / 3600));  //获取小时数
+          var minutes = hurry(Math.floor((all % 3600) / 60));
+          var second = hurry(Math.floor(all % 60));
+          var result = ("<span>" + hours + "</span>" + ": " + "<span>"  + minutes + "</span>" + ": " +"<span>" + second +"</span>" );
+          miaosha.innerHTML = (result);       
+       }
+
+       var ide=setInterval(CountDown, 1000);
+	if(now==new Date("2021-01-25 22:50:00")){
+		clearInterval(ide)
+	}
+   </script>
+</body>
+</html>
