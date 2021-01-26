@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Using Parcel with OpenLayers</title>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            /* height: 700px; */
+            height: 900px;
+        }
+
+        .ol-popup {
+            position: absolute;
+            background-color: #fff;
+            -webkit-filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+            filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.2));
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #cccccc;
+            bottom: 12px;
+            left: -50px;
+            min-width: 280px;
+        }
+
+        .ol-popup:after,
+        .ol-popup:before {
+            top: 100%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .ol-popup:after {
+            border-top-color: #fff;
+            border-width: 10px;
+            left: 48px;
+            margin-left: -10px;
+        }
+
+        .ol-popup:before {
+            border-top-color: #cccccc;
+            border-width: 11px;
+            left: 48px;
+            margin-left: -11px;
+        }
+
+        .ol-popup-closer {
+            text-decoration: none;
+            position: absolute;
+            top: 2px;
+            right: 8px;
+        }
+
+        .ol-popup-closer:after {
+            content: "✖";
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-close" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+
+    <script>
+        // 模拟后台假数据
+        var webData = [
+            {
+                "lon": 104.626295,
+                "lat": 35.579580,
+                "data": [
+                    { "name": "cxd" },
+                    { "age": "3号" },
+                    { "position": "工程师" }
+                ]
+            },
+            {
+                "lon": 106.747685,
+                "lat": 31.867933,
+                "data": [
+                    { "name": "刘天凯" },
+                    { "age": "一号床" },
+                    { "position": "公务员" }
+                ]
+            },
+            {
+                "lon": 111.48505258984382, 
+                "lat": 36.14099348658263,
+                "data": [
+                    { "name": "SUN" },
+                    { "age": "六号床" },
+                    { "position": "数据分析师" }
+                ]
+            },
+            {
+                "lon": 112.894135,
+                "lat": 36.316232,
+                "data": [
+                    { "name": "段佳俊" },
+                    { "age": 19 },
+                    { "position": "研究生" }
+                ]
+            },
+            {
+                "lon": 111.147223,
+                "lat": 37.582473,
+                "data": [
+                    { "name": "LLXY" },
+                    { "age": 19 },
+                    { "position": "student" }
+                ]
+            },
+            
+            {
+                "lon": 112.5205140156251,
+                "lat":  37.89524313088947,
+                "data": [
+                    { "name": "王昶" },
+                    { "age": "四号床" },
+                    { "position": "会计" }
+                ]
+            },
+           
+            {
+                "lon": 112.450562,
+                "lat": 39.333235,
+                "data": [
+                    { "name": "fan" },
+                    { "age": "二号床" },
+                    { "position": "银行专员" }
+                ]
+            },
+            {
+                "lon": 104.626295,
+                "lat": 35.579580,
+                "data": [
+                    { "name": "cxd" },
+                    { "age": "3号" },
+                    { "position": "工程师" }
+                ]
+            },
+        ]
+
+
+        // lineData: 线所需要的点合集
+        // pointData: 所有点的位置和信息
+        var lineData = []
+        var pointData = []
+        for (var i = 0; i < webData.length; i++) {
+            var coordinate = ol.proj.transform([webData[i].lon, webData[i].lat], 'EPSG:4326', 'EPSG:3857')
+            lineData[i] = coordinate,
+                pointData[i] = new ol.Feature({
+                    geometry: new ol.geom.Point(coordinate),
+                    data: webData[i].data
+                })
+        }
+
+        var map = new ol.Map({
+            target: 'map',
+            view: new ol.View({
+                center: ol.proj.fromLonLat([111.147223, 37.582473]),
+
+                zoom: 6
+            }),
+            layers: [
+                // 底图
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                }),
+                // 线图层
+                new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: [
+                            new ol.Feature({
+                                geometry: new ol.geom.LineString(lineData)
+                            })
+                        ]
+                    }),
+                    style: new ol.style.Style({
+                        fill: new ol.style.Fill({
+                            color: '#0044CC'
+                        }),
+                        stroke: new ol.style.Stroke({
+                            lineDash: [1, 2, 3, 4, 5, 6],
+                            width: 3,
+                            color: [255, 0, 0, 1]
+                        })
+                    })
+                }),
+                // 点图层
+                new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: pointData
+                    }),
+                    style: new ol.style.Style({
+                        image: new ol.style.Circle({
+                            radius: 5,
+                            fill: new ol.style.Fill({
+                                color: '#f00'
+                            }),
+                            stroke: new ol.style.Stroke({
+                                color: '#fff',
+                                width: 2
+                            })
+                        })
+                    })
+                })
+            ]
+        })
+        //获取坐标
+        document.getElementById('map').onclick = function (e) {
+            var t = ol.proj.transform(map.getEventCoordinate(e), 'EPSG:3857', 'EPSG:4326');
+            console.log(t);
+        }
+
+        // 重点：为点图层添加单击事件
+        // 1. 获取相关的dom元素
+        var container = document.getElementById("popup");
+        var content = document.getElementById("popup-content");
+        var popupCloser = document.getElementById("popup-close");
+        // 2. 创建Overlay图层
+        var overlayer = new ol.Overlay({
+            element: container,
+            autuPan: true
+        })
+
+        // 3. 添加交互行为
+        var selectClick = new ol.interaction.Select({
+            // 事件类型
+            condition: ol.events.condition.click,
+            // 被选中后的样式
+            style: new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 5,
+                    fill: new ol.style.Fill({
+                        color: '#09f'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: '#fff',
+                        width: 2
+                    })
+                })
+            })
+        })
+        // 4. 将交互行为添加到map当中
+        map.addInteraction(selectClick)
+
+        // 5. 点击点时弹出框，显示点的信息
+        selectClick.on("select", function (e) {
+            if (e.selected.length != 0) {
+                // 当前点的坐标
+                var coordinate = e.mapBrowserEvent.coordinate
+                // 当前点的属性信息
+                var properties = e.selected[0].getProperties()
+                // 将信息填入弹出框
+                content.innerHTML = `
+            <table id="routeBox">
+                <tbody>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td>姓名：</td>
+                        <td>`+ properties.data[0].name + `</td>
+                    </tr>
+                    <tr>
+                        <td>床铺：</td>
+                        <td>`+ properties.data[1].age + `</td>
+                    </tr>
+                    <tr>
+                        <td>职业：</td>
+                        <td>`+ properties.data[2].position + `</td>
+                    </tr>
+                </tbody>
+            </table>
+        `
+                // 调整overlayer层的位置
+                overlayer.setPosition(coordinate)
+                // 将overlayer层添加到map当中
+                map.addOverlay(overlayer)
+            } else {
+                overlayer.setPosition(undefined)
+            }
+        })
+
+        // 6. 关闭弹窗
+        popupCloser.addEventListener("click", function () {
+            overlayer.setPosition(undefined)
+            // 恢复点的样式
+
+        })
+
+        // 7. 设置鼠标划过矢量要素的样式
+
+        map.on("pointermove", function (e) {
+            var pixel = map.getEventPixel(e.originalEvent);
+            var feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+                return feature
+            })
+            if (feature == undefined) {
+                map.getTargetElement().style.cursor = "auto"
+            } else {
+                map.getTargetElement().style.cursor = "pointer"
+            }
+        })
+    </script>
+</body>
+
+</html>
