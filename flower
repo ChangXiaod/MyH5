@@ -1,0 +1,573 @@
+
+<!DOCTYPE html>
+<html lang="zh-c">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>to my love</title>
+</head>
+<body>
+<div class="gift-rose">
+  <div class="content">
+    <div class="box">
+      <div class="bottom"></div>
+      <div class="left"></div>
+      <div class="right"></div>
+      <div class="front">To My Love</div>
+      <div class="after"></div>
+      <div id="boxTopLeft" class="top-left"></div>
+      <div id="boxTopRight" class="top-right"></div>
+ 
+      <div id="flower" class="flower">
+        <div class="stem">
+          <div class="leaf leaf1"></div>
+          <div class="leaf leaf2"></div>
+          <div class="leaf leaf3"></div>
+          <div class="leaf leaf4"></div>
+        </div>
+ 
+        <div class="petal slice01"></div>
+        <div class="petal slice02"></div>
+        <div class="petal slice03"></div>
+ 
+        <div class="petal slice11"></div>
+        <div class="petal slice12"></div>
+        <div class="petal slice13"></div>
+        <div class="petal slice14"></div>
+ 
+        <div class="petal slice21"></div>
+        <div class="petal slice22"></div>
+        <div class="petal slice23"></div>
+        <div class="petal slice24"></div>
+        <div class="petal slice25"></div>
+        <div class="petal slice26"></div>
+ 
+        <div class="petal slice31"></div>
+        <div class="petal slice32"></div>
+        <div class="petal slice33"></div>
+        <div class="petal slice34"></div>
+        <div class="petal slice35"></div>
+        <div class="petal slice36"></div>
+        <div class="petal slice37"></div>
+        <div class="petal slice38"></div>
+ 
+        <div class="petal slice41"></div>
+        <div class="petal slice42"></div>
+        <div class="petal slice43"></div>
+        <div class="petal slice44"></div>
+        <div class="petal slice45"></div>
+        <div class="petal slice46"></div>
+        <div class="petal slice47"></div>
+        <div class="petal slice48"></div>
+        <div class="petal slice49"></div>
+        <div class="petal slice50"></div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<script>
+ 
+  let boxTopLeft = document.getElementById('boxTopLeft');
+  let leftOpened = false;
+  boxTopLeft.addEventListener("click", function (e) {
+    if (leftOpened == true) {
+      return;
+    }
+    leftOpened = true;
+    boxTopLeft.classList.add("box-open-left-animation");
+ 
+    setTimeout(() => {
+      boxTopLeft.classList.add("box-open-left-animation-end");
+    }, 1500)
+  })
+
+
+  let boxTopRight = document.getElementById('boxTopRight');
+  let rightOpened = false;
+  boxTopRight.addEventListener("click", function (e) {
+    if (rightOpened == true) {
+      return;
+    }
+    rightOpened = true;
+    boxTopRight.classList.add("box-open-right-animation");
+    setTimeout(() => {
+      boxTopRight.classList.add("box-open-right-animation-end");
+    }, 1500)
+  })
+ 
+  let flower = document.getElementById('flower');
+  let flowerOpend = false;
+  flower.addEventListener("click", function (e) {
+    if (flowerOpend == true || leftOpened != true || rightOpened != true) {
+      return;
+    }
+    flowerOpend = true;
+ 
+    flower.classList.add("flower-animation");
+ 
+    setTimeout(() => {
+      flower.classList.add("flower-animation-end");
+    }, 2000)
+  })
+
+
+
+  function leftClick(){
+    if (leftOpened == true) {
+      return;
+    }
+    setTimeout(() => {
+      leftOpened = true;
+      boxTopLeft.classList.add("box-open-left-animation");
+      boxTopLeft.classList.add("box-open-left-animation-end");
+    }, 1000)
+
+
+    if (rightOpened == true) {
+      return;
+    }
+    setTimeout(() => {
+      rightOpened = true;
+      boxTopRight.classList.add("box-open-right-animation");
+      boxTopRight.classList.add("box-open-right-animation-end");
+    }, 2000)
+    
+    setTimeout(() => {
+      flowerOpend = true;
+      flower.classList.add("flower-animation");
+      flower.classList.add("flower-animation-end");
+    }, 3000)
+  }
+  leftClick()
+ 
+ 
+</script>
+ 
+<style>
+  /*动画相关*/
+  .box-open-left-animation {
+    animation-name: box_open_left;
+    animation-duration: 1.5s;
+  }
+ 
+  @keyframes box_open_left {
+    0% {
+      transform: rotateX(90deg) rotateY(0deg) translateZ(0px);
+    }
+    100% {
+      transform: rotateX(90deg) rotateY(-160deg) translateZ(0px);
+    }
+  }
+ 
+  .box-open-left-animation-end {
+    transform: rotateX(90deg) rotateY(-160deg) translateZ(0px) !important;
+  }
+ 
+  .box-open-right-animation {
+    animation-name: box_open_right;
+    animation-duration: 1.5s;
+  }
+ 
+  @keyframes box_open_right {
+    0% {
+      transform: rotateX(90deg) rotateY(0deg) translateZ(0px);
+    }
+    100% {
+      transform: rotateX(90deg) rotateY(160deg) translateZ(0px);
+    }
+  }
+ 
+  .box-open-right-animation-end {
+    transform: rotateX(90deg) rotateY(160deg) translateZ(0px) !important;
+  }
+ 
+  .flower-animation {
+    animation-name: flower_animation;
+    animation-duration: 2s;
+  }
+ 
+  @keyframes flower_animation {
+    0% {
+      transform: scale(0.25);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+ 
+  .flower-animation-end {
+    transform: scale(1) !important;
+  }
+ 
+</style>
+ 
+<style>
+ 
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color:rgba(255,153,163,0.4);
+  }
+ 
+  * {
+    box-sizing: border-box;
+  }
+ 
+  .gift-rose {
+    width: 100%;
+    height: 100%;
+    box-sizing: content-box;
+  }
+ 
+  .gift-rose .content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+ 
+  .gift-rose .content .box {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 400px;
+    transform-style: preserve-3d;
+    perspective: 400px;
+    perspective-origin: 50% 0%;
+  }
+ 
+  .gift-rose .content .box .top-left {
+    position: absolute;
+    margin-left: -100px;
+    bottom: 100px;
+    left: 50%;
+    width: 100px;
+    height: 200px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform-origin: left center;
+    transform: rotateX(90deg) rotateY(0deg) translateZ(0px);
+    z-index: 1000;
+  }
+ 
+  .gift-rose .content .box .top-right {
+    position: absolute;
+    margin-left: 0px;
+    bottom: 100px;
+    left: 50%;
+    width: 100px;
+    height: 200px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform-origin: right center;
+    transform: rotateX(90deg) rotateY(0deg) translateZ(0px);
+    z-index: 1000;
+  }
+ 
+  .gift-rose .content .box .bottom {
+    position: absolute;
+    margin-left: -100px;
+    bottom: 0px;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg) translateZ(0px);
+    z-index: -100;
+  }
+ 
+  .gift-rose .content .box .right {
+    position: absolute;
+    margin-left: 0px;
+    bottom: 100px;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform: rotateX(0deg) rotateY(90deg) rotateZ(0deg);
+    z-index: -100;
+  }
+ 
+  .gift-rose .content .box .left {
+    position: absolute;
+    margin-left: -200px;
+    bottom: 100px;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform: rotateX(0deg) rotateY(-90deg) rotateZ(0deg);
+    z-index: -100;
+  }
+ 
+  .gift-rose .content .box .front {
+    position: absolute;
+    margin-left: -100px;
+    bottom: 0px;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateY(-100px) translateZ(100px);
+    z-index: 1000;
+    padding: 10px;
+    font-size: 18px;
+  }
+ 
+  .gift-rose .content .box .after {
+    position: absolute;
+    margin-left: -100px;
+    bottom: 0px;
+    left: 50%;
+    width: 200px;
+    height: 100px;
+    background-color: #ffad60;
+    border: 1px solid #666;
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) translateY(-100px) translateZ(-100px);
+    z-index: -100;
+  }
+ 
+  .gift-rose .content .flower {
+    position: absolute;
+    left: 0;
+    bottom: 50px;
+    overflow: hidden;
+    width: 100%;
+    height: 600px;
+    transform-style: preserve-3d;
+    perspective: 400px;
+    perspective-origin: 50% 0%;
+    transform-origin: center bottom;
+    transform: scale(0.25);
+  }
+ 
+  .gift-rose .content .flower .stem {
+    position: absolute;
+    left: 50%;
+    top: 200px;
+    margin-left: -10px;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to right, #0f0 0%, #060 50%, #004b00 100%);
+  }
+ 
+  .gift-rose .content .flower .stem .leaf {
+    position: absolute;
+    border-radius: 50%;
+  }
+ 
+  .gift-rose .content .flower .stem .leaf1 {
+    top: 40px;
+    right: 20px;
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(to right, #0f0 0%, #060 70%, #004b00 100%);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(30deg) translateZ(10px);
+  }
+ 
+  .gift-rose .content .flower .stem .leaf2 {
+    top: 70px;
+    left: 20px;
+    width: 100px;
+    height: 40px;
+    background: linear-gradient(to left, #0f0 0%, #060 70%, #004b00 100%);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(-30deg) translateZ(10px);
+  }
+ 
+  .gift-rose .content .flower .stem .leaf3 {
+    top: 150px;
+    right: 20px;
+    width: 140px;
+    height: 55px;
+    z-index: 200;
+    background: linear-gradient(to right, #0f0 0%, #060 70%, #004b00 100%);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(30deg) translateZ(10px);
+  }
+ 
+  .gift-rose .content .flower .stem .leaf4 {
+    top: 180px;
+    left: 20px;
+    width: 140px;
+    height: 55px;
+    z-index: 200;
+    background: linear-gradient(to left, #0f0 0%, #060 70%, #004b00 100%);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(-30deg) translateZ(10px);
+  }
+ 
+  .gift-rose .content .flower .petal {
+    position: absolute;
+    left: 50%;
+    margin-left: -50px;
+    top: 50px;
+    width: 100px;
+    height: 100px;
+    border-radius: 35% 35% 50% 50%;
+    transform-origin: center bottom;
+    background: repeating-linear-gradient(#ff3631, #d30a04 20%, #380000 100%);
+    overflow: hidden;
+  }
+ 
+  .gift-rose .content .flower .slice01 {
+    transform: rotateX(-2deg) rotateY(0deg) translateY(-10px) translateZ(10px) scale(0.4);
+    z-index: 590;
+  }
+ 
+  .gift-rose .content .flower .slice02 {
+    transform: rotateX(-2deg) rotateY(120deg) translateY(-10px) translateZ(10px) scale(0.4);
+    z-index: 580;
+  }
+ 
+  .gift-rose .content .flower .slice03 {
+    transform: rotateX(-2deg) rotateY(240deg) translateY(-10px) translateZ(10px) scale(0.4);
+    z-index: 580;
+  }
+ 
+  .gift-rose .content .flower .slice11 {
+    transform: rotateX(-15deg) rotateY(15deg) translateZ(30px) scale(0.7);
+    z-index: 690;
+  }
+ 
+  .gift-rose .content .flower .slice12 {
+    transform: rotateX(-15deg) rotateY(105deg) translateZ(30px) scale(0.7);
+    z-index: 680;
+  }
+ 
+  .gift-rose .content .flower .slice13 {
+    transform: rotateX(-15deg) rotateY(195deg) translateZ(30px) scale(0.7);
+    z-index: 460;
+  }
+ 
+  .gift-rose .content .flower .slice14 {
+    transform: rotateX(-15deg) rotateY(285deg) translateZ(30px) scale(0.7);
+    z-index: 680;
+  }
+ 
+  .gift-rose .content .flower .slice21 {
+    transform: rotateX(-20deg) rotateY(30deg) translateZ(45px) scale(0.8);
+    z-index: 790;
+  }
+ 
+  .gift-rose .content .flower .slice22 {
+    transform: rotateX(-20deg) rotateY(90deg) translateZ(45px) scale(0.8);
+    z-index: 780;
+  }
+ 
+  .gift-rose .content .flower .slice23 {
+    transform: rotateX(-20deg) rotateY(150deg) translateZ(45px) scale(0.8);
+    z-index: 360;
+  }
+ 
+  .gift-rose .content .flower .slice24 {
+    transform: rotateX(-20deg) rotateY(210deg) translateZ(45px) scale(0.8);
+    z-index: 340;
+  }
+ 
+  .gift-rose .content .flower .slice25 {
+    transform: rotateX(-20deg) rotateY(270deg) translateZ(45px) scale(0.8);
+    z-index: 360;
+  }
+ 
+  .gift-rose .content .flower .slice26 {
+    transform: rotateX(-20deg) rotateY(330deg) translateZ(45px) scale(0.8);
+    z-index: 780;
+  }
+ 
+  .gift-rose .content .flower .slice31 {
+    transform: rotateX(-25deg) rotateY(45deg) translateZ(60px) scale(0.9);
+    z-index: 890;
+  }
+ 
+  .gift-rose .content .flower .slice32 {
+    transform: rotateX(-25deg) rotateY(90deg) translateZ(60px) scale(0.9);
+    z-index: 880;
+  }
+ 
+  .gift-rose .content .flower .slice33 {
+    transform: rotateX(-25deg) rotateY(135deg) translateZ(60px) scale(0.9);
+    z-index: 260;
+  }
+ 
+  .gift-rose .content .flower .slice34 {
+    transform: rotateX(-25deg) rotateY(180deg) translateZ(60px) scale(0.9);
+    z-index: 240;
+  }
+ 
+  .gift-rose .content .flower .slice35 {
+    transform: rotateX(-25deg) rotateY(225deg) translateZ(60px) scale(0.9);
+    z-index: 220;
+  }
+ 
+  .gift-rose .content .flower .slice36 {
+    transform: rotateX(-25deg) rotateY(270deg) translateZ(60px) scale(0.9);
+    z-index: 240;
+  }
+ 
+  .gift-rose .content .flower .slice37 {
+    transform: rotateX(-25deg) rotateY(315deg) translateZ(60px) scale(0.9);
+    z-index: 860;
+  }
+ 
+  .gift-rose .content .flower .slice38 {
+    transform: rotateX(-25deg) rotateY(360deg) translateZ(60px) scale(0.9);
+    z-index: 880;
+  }
+ 
+  .gift-rose .content .flower .slice41 {
+    transform: rotateX(-28deg) rotateY(24deg) translateZ(85px) scale(1);
+    z-index: 999;
+  }
+ 
+  .gift-rose .content .flower .slice42 {
+    transform: rotateX(-28deg) rotateY(60deg) translateZ(85px) scale(1);
+    z-index: 990;
+  }
+ 
+  .gift-rose .content .flower .slice43 {
+    transform: rotateX(-28deg) rotateY(96deg) translateZ(85px) scale(1);
+    z-index: 80;
+  }
+ 
+  .gift-rose .content .flower .slice44 {
+    transform: rotateX(-28deg) rotateY(132deg) translateZ(85px) scale(1);
+    z-index: 170;
+  }
+ 
+  .gift-rose .content .flower .slice45 {
+    transform: rotateX(-28deg) rotateY(168deg) translateZ(85px) scale(1);
+    z-index: 160;
+  }
+ 
+  .gift-rose .content .flower .slice46 {
+    transform: rotateX(-28deg) rotateY(204deg) translateZ(85px) scale(1);
+    z-index: 150;
+  }
+ 
+  .gift-rose .content .flower .slice47 {
+    transform: rotateX(-28deg) rotateY(240deg) translateZ(85px) scale(1);
+    z-index: 160;
+  }
+ 
+  .gift-rose .content .flower .slice48 {
+    transform: rotateX(-28deg) rotateY(276deg) translateZ(85px) scale(1);
+    z-index: 970;
+  }
+ 
+  .gift-rose .content .flower .slice49 {
+    transform: rotateX(-28deg) rotateY(312deg) translateZ(85px) scale(1);
+    z-index: 980;
+  }
+ 
+  .gift-rose .content .flower .slice50 {
+    transform: rotateX(-28deg) rotateY(348deg) translateZ(85px) scale(1);
+    z-index: 990;
+  }
+</style>
+</body>
+</html>
